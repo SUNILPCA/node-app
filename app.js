@@ -20,30 +20,28 @@ var argv = yargs.argv;
 
 // reading arguments from command prompt or env. veriable
 var command = argv._[0];
-console.log('Command:', command)
+//console.log('Command:', command)
 //console.log('Process',process.argv);
-console.log("Yargs:", argv);
+//console.log("Yargs:", argv);
 
 if(command === 'add') {
  var note = notes.addNotes(argv.title, argv.body);
  if(note) { 
-   console.log('Note Created');
-   console.log(`Title: ${note.title}`);
-   console.log(`Body: ${note.body}`);
+   notes.logNote(note); 
  } else {
    console.log(`${argv.title} is already exists}`);
  }
 } else if(command === 'read') {
  var note = notes.getNotes(argv.title);
  if(note) {
-   console.log('Reading Notes');
-   console.log(`Title: ${note.title}`);
-   console.log(`Body: ${note.body}`);
+   notes.logNote(note); 
  } else {
    console.log('Notes not found');
  }
 } else if(command === 'list') {
- notes.getAll();
+  var allNotes =  notes.getAll();
+  console.log(`All available notes ${allNotes.length}`);
+  allNotes.forEach((note) => notes.logNote(note));
 } else if(command === 'remove') {
  var noteRemoved = notes.removeNotes(argv.title);
  var message = noteRemoved ? 'Note removed Success' : 'Note not found';
